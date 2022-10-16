@@ -75,8 +75,8 @@ def get_dist():
     
     ax, ay, az, gX, gY, gZ = mpu6050_conv()
 
-    x = x + gX * (time.time()-oldTime)/10
-    y = y + gY*(time.time() - oldTime)/10
+    x = x + gX * (time.time()-oldTime)
+    y = y + gY*(time.time() - oldTime)
     arrX = arrX + gX*(time.time()-oldTime)
     arrY = arrY + gY*(time.time()-oldTime)
     theta = theta + gZ*(time.time()-oldTime)
