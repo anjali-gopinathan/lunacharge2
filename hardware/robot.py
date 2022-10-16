@@ -203,7 +203,7 @@ if __name__ == '__main__':
                             robot.right_turn()
                             robot.right_turn()
                         orr = S 
-                    robot.forward(pdcont.update(0))
+                    robot.forward(pdcont.update(0)
                     client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
                 else: 
                     robot.halt()
