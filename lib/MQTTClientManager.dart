@@ -5,7 +5,8 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 
 class MQTTClientManager {
   MqttServerClient client =
-      MqttServerClient.withPort('10.0.2.2', 'mobile_client', 1883);
+      // MqttServerClient.withPort('10.0.2.2', 'mobile_client', 1883);
+      MqttServerClient.withPort('eclipse.usc.edu', 'mobile_client', 11000);
 
   Future<int> connect() async {
     client.logging(on: true);
