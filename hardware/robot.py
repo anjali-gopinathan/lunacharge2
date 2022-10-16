@@ -99,6 +99,7 @@ def on_loc(client, userdata, message):
             deli = i 
     row = int(loc_str[0:deli])
     col = int(loc_str[deli+1])
+    print(row, col)
     if (check_empty()==0):
         state = GO_TO
 #
@@ -114,7 +115,6 @@ if __name__ == '__main__':
     row = 1
     col = 3
     orr = W
-    state = GO_TO
     GPIO.setmode(GPIO.BCM)
     # set GPIO_TRIGGER to OUTPUT mode
     GPIO.setup(GPIO_TRIGGER,GPIO.OUT)
@@ -126,24 +126,12 @@ if __name__ == '__main__':
         if (state == WAIT):
             robot.halt()
         elif (state == GO_TO):
-            print(row, col)
-            print(arrX, arrY)
             get_dist()
 
             if (distance < 21):
                 robot.halt()
             else:
                 if (arrX >= 1.5):
-
-    
-          
-            
-    
-
-          
-    
-    
-  
                     arrX = 0
                     mapX = mapX +1 
                 elif (arrX <= -1.5):
