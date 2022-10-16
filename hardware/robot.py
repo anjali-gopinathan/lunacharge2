@@ -73,11 +73,8 @@ def get_dist():
     global y
     global oldTime, arrX, arrY, theta
     
-    gyro = mpu9250.readGyro()
-    gY = gyro['y']
-    gX = gyro['x']
-    gZ = gyro['z']
-    
+    ax, ay, az, gX, gY, gZ = mpu6050_conv()
+
     x = x + gX * (time.time()-oldTime)
     y = y + gY*(time.time() - oldTime)
     arrX = arrX + gX*(time.time()-oldTime)
