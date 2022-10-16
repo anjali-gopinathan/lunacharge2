@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   motor_flutter: ^0.9.1
   get: ^4.6.5
+  mqtt_client: ^9.7.2
 
 dev_dependencies:
   flutter_test:

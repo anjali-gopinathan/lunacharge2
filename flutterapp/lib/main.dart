@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:motor_flutter/motor_flutter.dart';
-
+import 'package:flutterapp/MQTTClientManager.dart';
+import 'package:mqtt_client/mqtt_client.dart';
 // Create a new account and print the address
 /*Future<void> main() async {
   final res = await MotorFlutter.to.createAccount('securepassword123');
@@ -59,7 +60,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
+  MQTTClientManager mqttClientManager = MQTTClientManager();
+  final String pubTopic = "test/counter";
+  @override
+  void initState() {
+    setupMqttClient();
+    setupUpdatesListener();
+    super.initState();
+  }
+  
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -68,6 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      mqttClientManager.publishMessage(
+          pubTopic, "Increment button pushed ${_counter.toString()} times.");
     });
   }
 
@@ -122,4 +133,27 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  Future<void> setupMqttClient() async {
+    await mqttClientManager.connect();
+    mqttClientManager.subscribe(pubTopic);
+  }
+
+  void setupUpdatesListener() {
+    mqttClientManager
+        .getMessagesStream()!
+        .listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+      final recMess = c![0].payload as MqttPublishMessage;
+      final pt =
+          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+      print('MQTTClient::Message received on topic: <${c[0].topic}> is $pt\n');
+    });
+  }
+
+  @override
+  void dispose() {
+    mqttClientManager.disconnect();
+    super.dispose();
+  }
+
 }
