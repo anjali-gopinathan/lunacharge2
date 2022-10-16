@@ -139,7 +139,7 @@ if __name__ == '__main__':
             robot.halt()
         elif (state == GO_TO):
             get_dist()
-            if (distance < 21):
+            if (distance < 11):
                 robot.halt()
                 robot.right_turn()
                 robot.forward(0)
@@ -204,14 +204,12 @@ if __name__ == '__main__':
                     client.publish("chargr/loc", str(x/14) + ',' + str(y/11))
                 else: 
                     robot.halt()
-                    if (avail[0] == 0):
-                        p.ChangeDutyCycle(1)
-                        time.sleep(20)
-                        p.ChangeDutyCycle(5.5)
-                    elif (avail[1]==0):
-                        p2.ChangeDutyCycle(1)
-                        time.sleep(20)
-                        p2.ChangeDutyCycle(5.5)
+                    p.ChangeDutyCycle(1)
+                    time.sleep(20)
+                    p.ChangeDutyCycle(5.5)
+                    p2.ChangeDutyCycle(1)
+                    time.sleep(20)
+                    p2.ChangeDutyCycle(5.5)
                     state = WAIT
         print(state)
         time.sleep(0.5)
