@@ -108,26 +108,13 @@ class _MapPageState extends State<MapPage> {
   }
   String _getLoc() {
     String locStr = "";
+    // wildcard?
     mqttClientManager
         .getMessagesStream()!
         .listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
                 final recMess = c![0].payload as MqttPublishMessage;
                 locStr = MqttPublishPayload.bytesToStringAsString(recMess.payload.message);  
               });
-    // List<String> result = locStr.split(",");
-    // List<String> result = Arrays.stream(locStr.split(",")).mapToInt(Integer::parseInt).toList();
-    // final split = locStr.split(",");
-    // int [] result = new int[] {-1,-1};
-    // for (int i=0; i<split.length; i++){
-    //   result[i] = (int.parse(split[i]));
-    // }
-    // final Map<int, String> result = {
-    //   for (int i=0; i<split.length; i++){
-    //     i : split[i];
-    //   }
-    // }
-    // List<int> result
-    // result = result() {int.parse(split[0]), int.parse(split[1])};
     return locStr;
   }
   int _getLocX(){
