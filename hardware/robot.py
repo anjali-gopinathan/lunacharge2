@@ -170,7 +170,7 @@ if __name__ == '__main__':
                 if (arrY != row):
                     if (row > mapY):
                         if (orr == N):
-                        robot.left_turn()
+                            robot.left_turn()
                         if (orr == E):
                             robot.right_turn()
                             robot.right_turn()
