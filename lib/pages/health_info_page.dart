@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'Patient.dart'
 
 class HealthInfoPage extends StatefulWidget {
   const HealthInfoPage({super.key});
@@ -20,7 +21,10 @@ class _HealthInfoPageState extends State<HealthInfoPage> {
   @override
   Widget build(BuildContext context) {
     //API key: rwTfGX0PLYds3c2mkwWj8HhabyAGsjr27jDYGHv3
-
+    List<Patient> parsePatients(String responseBody) { 
+      final parsed = json.decode(responseBody).cast<Map<String, dynamic>>(); 
+      return parsed.map<Patient>((json) => Patient.fromMap(json)).toList(); 
+    } 
     return Scaffold(
       body: TextButton(
         // MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -80,21 +84,8 @@ class _HealthInfoPageState extends State<HealthInfoPage> {
   }
   void _intersystemsLogin(){
     Response response = await get('') ;
-    fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      body: JSON.stringify({
-        title: 'foo',
-        body: 'bar',
-        userId: 1,
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-})
-  .then((response) => response.json())
-  .then((json) => console.log(json));
-  }
-  Future<http.Response> fetchAlbum() {
+    
+  Future<http.Response> fetchPatientData() {
     return http.get(Uri.parse('https://fhir.8af670au7wp7.static-test-account.isccloud.io'));
   }
 }
