@@ -9,6 +9,10 @@ import pickle
 pdcont = PDController(0,1,1)
 robot = Robot()
 
+SONAR_MIN = 0   # SONAR_MIN = 20
+SONAR_MAX = 0   # SONAR_MAX = 800
+GPIO_TRIGGER = 23
+GPIO_ECHO    = 24
 
 UNIT_TRAVEL = 2 
 WAIT = 0 
@@ -32,6 +36,35 @@ W = 0
 N = 1 
 E = 2 
 S = 3 
+
+def sonar():
+    # distance measurements in cm
+    # set GPIO_TRIGGER to LOW
+    GPIO.output(GPIO_TRIGGER, False)
+    # let the sensor settle for a while
+    #print "Waiting For Sensor To Settle"
+    time.sleep(0.5)     # time.sleep(2)
+    # send 10 microsecond pulse to GPIO_TRIGGER
+    GPIO.output(GPIO_TRIGGER, True) # GPIO_TRIGGER -> HIGH
+    time.sleep(0.00001) # wait 10 microseconds
+    GPIO.output(GPIO_TRIGGER, False) # GPIO_TRIGGER -> LOW
+    # create variable start and give it current time
+    start = time.time()
+    # refresh start value until GPIO_ECHO goes HIGH, so until the wave is send
+    while GPIO.input(GPIO_ECHO)==0:
+        start = time.time()
+    # assign the actual time to stop variable until GPIO_ECHO goes back from HIGH to LOW
+    while GPIO.input(GPIO_ECHO)==1:
+        stop = time.time()
+    # time it took the wave to travel there and back
+    measuredTime = stop - start
+    # calculate the travel distance by multiplying the measured time by speed of sound
+    distanceBothWays = measuredTime * 33112 # cm/s in 20 degrees Celsius
+    # divide the distance by 2 to get the actual distance from sensor to obstacle
+    distance = distanceBothWays / 2
+    distance = pulse_duration * 17150        #Calculate distance
+    distance = round(distance, 2)            #Roun
+    return distance
 
 def get_dist():
     global x
@@ -100,7 +133,15 @@ if __name__ == '__main__':
     orr = W
     state = GO_TO
 
+    GPIO.setmode(GPIO.BCM)
+    # set GPIO_TRIGGER to OUTPUT mode
+    GPIO.setup(GPIO_TRIGGER,GPIO.OUT)
+    # set GPIO_ECHO to INPUT mode
+    GPIO.setup(GPIO_ECHO,GPIO.IN)
+
     while True:
+
+        distance = sonar()
 
         if (state == WAIT):
             robot.halt()
@@ -108,62 +149,66 @@ if __name__ == '__main__':
             print(row, col)
             print(arrX, arrY)
             get_dist()
-            if (arrX >= 1.5):
-                arrX = 0
-                mapX = mapX +1 
-            elif (arrX <= -1.5):
-                arrX = 0
-                mapX = mapX - 1
 
-            if (arrY >= 1):
-                arrY = 0
-                mapY = mapY + 1
-            elif (arrY <= -1):
-                arrY = 0 
-                mapY = mapY - 1  
-
-            if (arrY != row):
-                if (row > mapY):
-                    if (orr == N):
-                       robot.left_turn()
-                    if (orr == E):
-                        robot.right_turn()
-                        robot.right_turn()
-                    if (orr == S):
-                        robot.right_turn()
-                    orr = W 
-                if (row < mapY): 
-                    if (orr == N):
-                        robot.right_turn()
-                    if (orr == E):
-                        robot.right_turn()
-                        robot.right_turn()
-                    if (orr == S):
-                        robot.left_turn()
-                    orr = E 
-                robot.forward(0)
-                client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
-            elif (arrX != col):
-                if (col > mapX):
-                    if (orr == W):
-                        robot.right_turn()
-                    if (orr == E):
-                        robot.left_turn()
-                    if (orr == S):
-                        robot.right_turn()
-                        robot.right_turn()
-                    orr = N
-                if (col < mapX): 
-                    if (orr == W):
-                        robot.left_turn()
-                    if (orr == E):
-                        robot.right_turn()
-                    if (orr == S):
-                        robot.right_turn()
-                        robot.right_turn()
-                    orr = S 
-                robot.forward(0)
-                client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
-            else: 
+            if (distance < 10):
                 robot.halt()
-                state = WAIT
+            else:
+                if (arrX >= 1.5):
+                    arrX = 0
+                    mapX = mapX +1 
+                elif (arrX <= -1.5):
+                    arrX = 0
+                    mapX = mapX - 1
+
+                if (arrY >= 1):
+                    arrY = 0
+                    mapY = mapY + 1
+                elif (arrY <= -1):
+                    arrY = 0 
+                    mapY = mapY - 1  
+
+                if (arrY != row):
+                    if (row > mapY):
+                        if (orr == N):
+                        robot.left_turn()
+                        if (orr == E):
+                            robot.right_turn()
+                            robot.right_turn()
+                        if (orr == S):
+                            robot.right_turn()
+                        orr = W 
+                    if (row < mapY): 
+                        if (orr == N):
+                            robot.right_turn()
+                        if (orr == E):
+                            robot.right_turn()
+                            robot.right_turn()
+                        if (orr == S):
+                            robot.left_turn()
+                        orr = E 
+                    robot.forward(0)
+                    client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
+                elif (arrX != col):
+                    if (col > mapX):
+                        if (orr == W):
+                            robot.right_turn()
+                        if (orr == E):
+                            robot.left_turn()
+                        if (orr == S):
+                            robot.right_turn()
+                            robot.right_turn()
+                        orr = N
+                    if (col < mapX): 
+                        if (orr == W):
+                            robot.left_turn()
+                        if (orr == E):
+                            robot.right_turn()
+                        if (orr == S):
+                            robot.right_turn()
+                            robot.right_turn()
+                        orr = S 
+                    robot.forward(0)
+                    client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
+                else: 
+                    robot.halt()
+                    state = WAIT
