@@ -139,7 +139,6 @@ if __name__ == '__main__':
             robot.halt()
         elif (state == GO_TO):
             get_dist()
-
             if (distance < 21):
                 robot.halt()
                 robot.right_turn()
@@ -147,19 +146,19 @@ if __name__ == '__main__':
                 time.sleep(0.5)
                 robot.halt()
             else:
-                if (arrX >= 1.5):
+                if (arrX >= 5):
                     arrX = 0
-                    mapX = mapX +1 
-                elif (arrX <= -1.5):
+                    mapX = mapX + 1 
+                elif (arrX <= -5):
                     arrX = 0
                     mapX = mapX - 1
-                if (arrY >= 1):
+                if (arrY >= 5):
                     arrY = 0
                     mapY = mapY + 1
-                elif (arrY <= -1):
+                elif (arrY <= -5):
                     arrY = 0 
                     mapY = mapY - 1  
-                if (arrY != row):
+                if (mapY != row):
                     if (row > mapY):
                         if (orr == N):
                             robot.left_turn()
@@ -181,7 +180,7 @@ if __name__ == '__main__':
                     robot.forward(0)
                     print(mapX,mapY)
                     client.publish("chargr/loc", str(x/14) + ',' + str(y/11))
-                elif (arrX != col):
+                elif (mapX != col):
                     if (col > mapX):
                         if (orr == W):
                             robot.right_turn()
