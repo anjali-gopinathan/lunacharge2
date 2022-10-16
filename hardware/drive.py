@@ -18,6 +18,7 @@ def forward(o):
     reverseRight.value = 0
 
 def left_turn():
+    halt()
     forwardLeft.value = 0.0
     reverseLeft.value = 1.0
     forwardRight.value = 1.0
@@ -26,6 +27,7 @@ def left_turn():
     halt()
 
 def right_turn():
+    halt()
     forwardLeft.value = 1.0
     reverseLeft.value = 0
     forwardRight.value = 0
@@ -39,9 +41,4 @@ def halt():
     forwardRight.value = 0
     reverseRight.value = 0
 
-while True:
-    forward(0)
-    time.sleep(2)
-    halt()
-    time.sleep(1)
     
