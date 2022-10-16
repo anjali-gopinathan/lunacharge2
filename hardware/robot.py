@@ -34,7 +34,7 @@ E = 2
 S = 3 
 servoPIN = 17
 servoUpperPin = 22
-GPI.setup(servoUpperPin, GPIO.OUT)
+GPIO.setup(servoUpperPin, GPIO.OUT)
 GPIO.setup(servoPIN, GPIO.OUT)
 
 p = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
