@@ -132,7 +132,6 @@ if __name__ == '__main__':
     GPIO.setup(GPIO_TRIGGER,GPIO.OUT)
     # set GPIO_ECHO to INPUT mode
     GPIO.setup(GPIO_ECHO,GPIO.IN)
-    p2.ChangeDutyCycle(12)
                     
 
     while True:
