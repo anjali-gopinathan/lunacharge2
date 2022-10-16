@@ -140,6 +140,7 @@ if __name__ == '__main__':
     while True:
 
         distance = sonar()
+        print(distance)
 
         if (state == WAIT):
             robot.halt()
