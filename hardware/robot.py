@@ -1,17 +1,16 @@
 import paho.mqtt.client as mqtt
 import time
 import RPi.GPIO as GPIO
-import drive 
+from drive import * 
 from pdController import *
-import FaBo9Axis_MPU9250
 import smbus 
+import pickle 
 
-from imusensor.MPU9250 import MPU9250
+from mpu9250_i2c import *
 
 address = 0x68
 bus = smbus.SMBus(1)
-mpu9250 = MPU9250.MPU9250(bus, address) 
-PDController pdcont(0,1,1)
+pdcont = PDController(0,1,1)
 
 
 UNIT_TRAVEL = 2 
@@ -38,15 +37,25 @@ E = 2
 S = 3 
 
 def get_dist():
-    gyro = mpu9250.readGyro()
-    gY = gyro['y']
-    gX = gyro['x']
-    gZ = gyro['z']
-    x = x + gX*(time.time()-oldTime)
-    y = y + gY*(time.time()-oldTime)
-    arrX = arrX + gX*(time.time()-oldTime)
-    arrY = arrY + gY*(time.time()-oldTime)
-    theta = theta + gZ(time.time()-oldTime)
+    global x
+    global y
+    global oldTime, arrX, arrY, theta
+    
+    delta = 0.4 *(time.time()-oldTime)
+    if (orr == N):
+	    x = x + delta
+	    arrX = arrX + delta
+    elif (orr == E):
+	    y = y - delta
+	    arrY = arrY - delta
+    elif (orr == S):
+	    x = x - delta
+	    arrX = arrX - delta
+    else:
+	    y = y + delta
+	    arrY = arrY + delta 
+
+    theta = ((x**2 + y**2)**(1/2))/.1
     oldTime = time.time()
 
 #def servo_lock(cubby):
@@ -87,13 +96,13 @@ if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
     halt()
     client = mqtt.Client()
-    client.on_message= on_message
     client.on_connect = on_connect
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
     client.loop_start()
     row = 1
     col = 3
-    orr = W 
+    orr = W
+    state = GO_TO
 
     while True:
 
@@ -153,10 +162,9 @@ if __name__ == '__main__':
                         right_turn()
                         right_turn()
                     orr = S 
-                forward(pdcont.update(theta)):
+                forward(pdcont.update(0))
+                print(theta)
                 client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
             else: 
                 halt()
-                state = WAIT    
-
-
+                state = WAIT
