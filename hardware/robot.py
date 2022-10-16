@@ -75,7 +75,6 @@ def get_dist():
     global oldTime, arrX, arrY, theta
     
     delta = 0.2 *(time.time()-oldTime)
-    print("Delta" + str)
     if (orr == N):
 	    x = x + delta
 	    arrX = arrX + delta
