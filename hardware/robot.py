@@ -220,7 +220,7 @@ if __name__ == '__main__':
             robot.forward()
             if (flag == 0):
                 cnt = cnt+1
-                client.publish("chargr/loc", str(0) + ',' + str(cnt*0.5)))
+                client.publish("chargr/loc", str(0) + ',' + str(cnt*0.5))
             else: 
                 cnt = cnt - 1 
             if (cnt == 9):
