@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:motor_flutter_starter/MQTTClientManager.dart';
 import 'package:motor_flutter_starter/components/grid.dart';
+import 'package:motor_flutter_starter/pages/health_page.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 
 class MapPage extends StatefulWidget {
@@ -54,7 +55,14 @@ class _MapPageState extends State<MapPage> {
             children: [
               const Spacer(),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HealthPage(),
+                    ),
+                  );
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
