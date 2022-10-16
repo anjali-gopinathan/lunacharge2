@@ -52,7 +52,6 @@ def get_dist():
 	    y = y + delta
 	    arrY = arrY + delta 
 
-    theta = ((x**2 + y**2)**(1/2))/.1
     oldTime = time.time()
 
 #def servo_lock(cubby):
@@ -106,6 +105,8 @@ if __name__ == '__main__':
         if (state == WAIT):
             robot.halt()
         elif (state == GO_TO):
+            print(row, col)
+            print(arrX, arrY)
             get_dist()
             if (arrX >= 1.5):
                 arrX = 0
@@ -140,8 +141,7 @@ if __name__ == '__main__':
                     if (orr == S):
                         robot.left_turn()
                     orr = E 
-                robot.forward(pdcont.update(0))
-                print(theta)
+                robot.forward(0)
                 client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
             elif (arrX != col):
                 if (col > arrX):
@@ -162,9 +162,8 @@ if __name__ == '__main__':
                         robot.right_turn()
                         robot.right_turn()
                     orr = S 
-                robot.forward(pdcont.update(0))
-                print(theta)
+                robot.forward(0)
                 client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
             else: 
-                halt()
+                robot.halt()
                 state = WAIT
