@@ -6,8 +6,6 @@ from pdController import *
 import smbus 
 import pickle 
 
-from mpu9250_i2c import *
-
 address = 0x68
 bus = smbus.SMBus(1)
 pdcont = PDController(0,1,1)
