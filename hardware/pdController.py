@@ -8,8 +8,9 @@ class PDController:
         self.oldError = 0
         self.oldTime = time.time()
 
-    def update(value):
+    def update(self,value):
         err = value - target
         newTime = time.time()
         o = err*kp + (err-oldError)/(newTime-oldTime)*kd
         oldTime = newTime
+        return o 

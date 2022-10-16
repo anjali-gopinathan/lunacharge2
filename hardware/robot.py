@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO
 from drive import * 
 from pdController import *
 import smbus 
+from mpu9250_i2c import *
 import pickle 
 
 pdcont = PDController(0,1,1)
@@ -69,20 +70,16 @@ def get_dist():
     global y
     global oldTime, arrX, arrY, theta
     
-    delta = 0.2 *(time.time()-oldTime)
-    if (orr == N):
-	    x = x + delta
-	    arrX = arrX + delta
-    elif (orr == E):
-	    y = y - delta
-	    arrY = arrY - delta
-    elif (orr == S):
-	    x = x - delta
-	    arrX = arrX - delta
-    else:
-	    y = y + delta
-	    arrY = arrY + delta 
-
+    gyro = mpu9250.readGyro()
+    gY = gyro['y']
+    gX = gyro['x']
+    gZ = gyro['z']
+    
+    x = x + gX * (time.time()-oldTime)
+    y = y + gY*(time.time() - oldTime)
+    arrX = arrX + gX*(time.time()-oldTime)
+    arrY = arrY + gY*(time.time()-oldTime)
+    theta = theta + gZ*(time.time()-oldTime)
     oldTime = time.time()
 
 #def servo_lock(cubby):
@@ -185,7 +182,7 @@ if __name__ == '__main__':
                         if (orr == S):
                             robot.left_turn()
                         orr = E 
-                    robot.forward(0)
+                    robot.forward(pdcont.update(0))
                     client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
                 elif (arrX != col):
                     if (col > mapX):
@@ -206,7 +203,7 @@ if __name__ == '__main__':
                             robot.right_turn()
                             robot.right_turn()
                         orr = S 
-                    robot.forward(0)
+                    robot.forward(pdcont.update(0))
                     client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
                 else: 
                     robot.halt()
