@@ -4,7 +4,7 @@ import time
 LEFT_FORWARD = 26 #IN1
 LEFT_REVERSE = 19 #IN2
 RIGHT_FORWARD = 13
-RIGHT_BACKWARD = 6
+RIGHT_REVERSE = 6
 
 def robo_init():  
     forwardLeft = PWMOutputDevice(LEFT_FORWARD, True, 0, 1000)
