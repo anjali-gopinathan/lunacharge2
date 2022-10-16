@@ -116,6 +116,7 @@ def on_loc(client, userdata, message):
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
     robot.halt()
+    p.ChangeDutyCucle(10)
     client = mqtt.Client()
     client.on_connect = on_connect
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
@@ -195,3 +196,6 @@ if __name__ == '__main__':
                     client.publish("chargr/loc", str(x) + ',' + str(y))
                 else: 
                     robot.halt()
+                    p.ChangeDutyCycle(1)
+                    time.sleep(20)
+                    p.ChangeDutyCucle(10)
