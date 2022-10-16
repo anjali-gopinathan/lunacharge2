@@ -15,6 +15,7 @@ UNIT_TRAVEL = 2
 WAIT = 0 
 GO_TO = 1
 UNLOCK = 2
+DEMO = 3
 row = 0
 col = 0
 x = 69
@@ -112,7 +113,7 @@ def on_loc(client, userdata, message):
     row = int(rowS)
     col = int(colS)
     print(row, col)
-    state = GO_TO
+    state = DEMO
     oldTime = time.time()
 #
 # open door function 
@@ -120,6 +121,7 @@ def on_loc(client, userdata, message):
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
     robot.halt()
+    flag = 0
     p.ChangeDutyCycle(5.5)
     p2.ChangeDutyCycle(5.5)
     client = mqtt.Client()
@@ -138,6 +140,7 @@ if __name__ == '__main__':
         distance = sonar()
         if (state == WAIT):
             robot.halt()
+            cnt = 0
         elif (state == GO_TO):
             get_dist()
             if (distance < 11):
@@ -212,5 +215,28 @@ if __name__ == '__main__':
                     time.sleep(20)
                     p2.ChangeDutyCycle(5.5)
                     state = WAIT
+
+        elif (state == DEMO):
+            robot.forward()
+            if (flag == 0):
+                cnt = cnt+1
+                client.publish("chargr/loc", str(0) + ',' + str(cnt*0.5)))
+            else: 
+                cnt = cnt - 1 
+            if (cnt == 9):
+                robot.right_turn()
+                robot.right_turn()
+                flag = 1
+                cnt = cnt-1
+            elif (cnt == 0):
+                robot.halt()
+                p.ChangeDutyCycle(12)
+                time.sleep(5)
+                p.ChangeDutyCycle(5.5)
+                p2.ChangeDutyCycle(12)
+                time.sleep(5)
+                p2.ChangeDutyCycle(5.5)
+                state = WAIT
+
         print(state)
         time.sleep(0.5)
