@@ -99,8 +99,8 @@ def check_empty():
     else: 
         return 2
 def on_loc(client, userdata, message):
-    print('Message' + str(message.payload).encode("utf-8"))
-    loc_str = str(message.payload).encode("utf-8")
+    print('Message' + message.payload.decode("utf-8"))
+    loc_str = message.payload.encode("utf-8")
     deli = 0
     for i in loc_str:
         if (loc_str[i] == ","):
