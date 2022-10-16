@@ -16,10 +16,14 @@ class GridState extends State<Grid> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 60),
-        child: _buildGrid(),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 30),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30),
+          child: _buildGrid(),
+        ),
       ),
     );
   }
@@ -46,10 +50,11 @@ class GridState extends State<Grid> {
   // }
 
   Widget _buildGrid() {
+    double wh = 50;
     return SizedBox(
-      height: 10 * (60 + 10),
+      height: 10 * (wh + 10),
+      width: 14 * (wh + 10),
       child: GridView.count(
-        scrollDirection: Axis.horizontal,
         crossAxisCount: 14,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
@@ -81,8 +86,8 @@ class GridState extends State<Grid> {
                 }
               },
               child: SizedBox(
-                width: 60,
-                height: 60,
+                width: wh,
+                height: wh,
                 child: Center(
                   child: Text(
                     '$row, $col',
