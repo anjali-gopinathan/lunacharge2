@@ -74,7 +74,7 @@ def get_dist():
     global y
     global oldTime, arrX, arrY, theta
     
-    delta = 0.2 *(time.time()-oldTime)
+    delta = 0.333
     if (orr == N):
 	    x = x + delta
 	    arrX = arrX + delta
@@ -133,7 +133,7 @@ if __name__ == '__main__':
     # set GPIO_ECHO to INPUT mode
     GPIO.setup(GPIO_ECHO,GPIO.IN)
     time.sleep(20)
-    p.ChangeDutyCycle(1.5)
+    p.ChangeDutyCycle(12)
                     
 
     while True:
