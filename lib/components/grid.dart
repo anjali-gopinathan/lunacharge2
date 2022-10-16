@@ -1,18 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:motor_flutter_starter/components/car.dart';
 
 class Grid extends StatefulWidget {
   final void Function(int index) onUpdateIndex;
+  final int carX;
+  final int carY;
 
-  const Grid({super.key, required this.onUpdateIndex});
+  const Grid({
+    super.key,
+    required this.onUpdateIndex,
+    required this.carX,
+    required this.carY,
+  });
 
   @override
   State<Grid> createState() => GridState();
 }
 
 class GridState extends State<Grid> {
+  late final ScrollController _scrollController;
   int _selectedIndex = -1;
+  double _scrollOffset = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      setState(() {
+        _scrollOffset = _scrollController.offset;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,32 +49,25 @@ class GridState extends State<Grid> {
         scrollDirection: Axis.horizontal,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 30),
-          child: _buildGrid(),
+          child: _buildStack(),
         ),
       ),
     );
   }
 
-  int getSelectedIndex() {
-    return _selectedIndex;
+  Widget _buildStack() {
+    double offset = 60.5;
+    return Stack(
+      children: [
+        _buildGrid(),
+        Positioned(
+          top: -_scrollOffset - 23 + widget.carY * offset,
+          left: -43 + widget.carX * offset,
+          child: const Car(),
+        ),
+      ],
+    );
   }
-  // @override
-  // Widget build(BuildContext context) {
-  //   return PhotoView.customChild(
-  //     childSize: const Size(14 * (50 + 10), 10 * (50 + 10)),
-  //     backgroundDecoration: const BoxDecoration(color: Colors.white),
-  //     customSize: MediaQuery.of(context).size,
-  //     minScale: PhotoViewComputedScale.contained * 0.8,
-  //     maxScale: PhotoViewComputedScale.covered * 4,
-  //     initialScale: PhotoViewComputedScale.covered,
-  //     // enablePanAlways: true,
-  //     // tightMode: true,
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(30),
-  //       child: _buildGrid(),
-  //     ),
-  //   );
-  // }
 
   Widget _buildGrid() {
     double wh = 50;
@@ -55,6 +75,7 @@ class GridState extends State<Grid> {
       height: 10 * (wh + 10),
       width: 14 * (wh + 10),
       child: GridView.count(
+        controller: _scrollController,
         crossAxisCount: 14,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
