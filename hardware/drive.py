@@ -14,9 +14,9 @@ class Robot:
         self.reverseRight = PWMOutputDevice(RIGHT_REVERSE, True, 0, 1000)   
 
     def forward(self,o):
-        self.forwardLeft.value = 1.0*(1+o)
+        self.forwardLeft.value = 1.0*(0.5+o)
         self.reverseLeft.value = 0
-        self.forwardRight.value = 1.0*(1-o)
+        self.forwardRight.value = 1.0*(0.5-o)
         self.reverseRight.value = 0
 
     def left_turn(self):
