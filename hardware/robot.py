@@ -99,6 +99,7 @@ def check_empty():
     else: 
         return 2
 def on_loc(client, userdata, message):
+    print('Message' + str(message.payload).encode("utf-8"))
     loc_str = str(message.payload).encode("utf-8")
     deli = 0
     for i in loc_str:
@@ -127,10 +128,9 @@ if __name__ == '__main__':
     GPIO.setup(GPIO_TRIGGER,GPIO.OUT)
     # set GPIO_ECHO to INPUT mode
     GPIO.setup(GPIO_ECHO,GPIO.IN)
-    
+
     while True:
         distance = sonar()
-        print(distance)
         if (state == WAIT):
             robot.halt()
         elif (state == GO_TO):
@@ -192,6 +192,6 @@ if __name__ == '__main__':
                             robot.right_turn()
                         orr = S 
                     robot.forward(0)
-                    client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
+                    client.publish("chargr/loc", str(x) + ',' + str(y))
                 else: 
                     robot.halt()
