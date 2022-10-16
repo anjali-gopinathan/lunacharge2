@@ -149,7 +149,7 @@ if __name__ == '__main__':
             print(arrX, arrY)
             get_dist()
 
-            if (distance < 10):
+            if (distance < 21):
                 robot.halt()
             else:
                 if (arrX >= 1.5):
