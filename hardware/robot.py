@@ -110,8 +110,7 @@ def on_loc(client, userdata, message):
     row = int(rowS)
     col = int(colS)
     print(row, col)
-    if (check_empty()==0):
-        state = GO_TO
+    state = GO_TO
 #
 # open door function 
 #
