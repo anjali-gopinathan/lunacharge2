@@ -4,20 +4,13 @@ import RPi.GPIO as GPIO
 from drive import * 
 from pdController import *
 import smbus 
-from mpu9250_i2c import *
 import pickle 
-
-address = 0x68
-bus = smbus.SMBus(1)
-pdcont = PDController(0,0.1,0.1)
+pdcont = PDController(0,1,1)
 robot = Robot()
-
-
 SONAR_MIN = 0   # SONAR_MIN = 20
 SONAR_MAX = 0   # SONAR_MAX = 800
 GPIO_TRIGGER = 23
 GPIO_ECHO    = 24
-
 UNIT_TRAVEL = 2 
 WAIT = 0 
 GO_TO = 1
@@ -35,12 +28,10 @@ oldTime = 0
 avail = [0, 0]
 arr = pickle.load(open("map.pickle", "rb"))
 state = WAIT
-
 W = 0
 N = 1 
 E = 2 
 S = 3 
-
 def sonar():
     # distance measurements in cm
     # set GPIO_TRIGGER to LOW
@@ -67,32 +58,32 @@ def sonar():
     # divide the distance by 2 to get the actual distance from sensor to obstacle
     distance = distanceBothWays / 2
     return distance
-
 def get_dist():
     global x
     global y
     global oldTime, arrX, arrY, theta
     
-    ax, ay, az, gX, gY, gZ = mpu6050_conv()
-
-    x = x + gX * (time.time()-oldTime)
-    y = y + gY*(time.time() - oldTime)
-    arrX = arrX + gX*(time.time()-oldTime)
-    arrY = arrY + gY*(time.time()-oldTime)
-    theta = theta + gZ*(time.time()-oldTime)
+    delta = 0.2 *(time.time()-oldTime)
+    if (orr == N):
+	    x = x + delta
+	    arrX = arrX + delta
+    elif (orr == E):
+	    y = y - delta
+	    arrY = arrY - delta
+    elif (orr == S):
+	    x = x - delta
+	    arrX = arrX - delta
+    else:
+	    y = y + delta
+	    arrY = arrY + delta 
     oldTime = time.time()
-
 #def servo_lock(cubby):
-
 #def servo_unlock(cubby):
-
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
-
     #subscribe to location topic
     client.subscribe("chargr/chargeme")
     client.message_callback_add("chargr/chargeme", on_loc)
-
 def check_empty():
     if ((avail[0] == 0) and (avail[1] == 0)):
         return 0
@@ -100,7 +91,6 @@ def check_empty():
         return 1 
     else: 
         return 2
-
 def on_loc(client, userdata, message):
     loc_str = str(message.payload).encode("utf-8")
     deli = 0
@@ -109,10 +99,8 @@ def on_loc(client, userdata, message):
             deli = i 
     row = int(loc_str[0:deli])
     col = int(loc_str[deli+1])
-
     if (check_empty()==0):
         state = GO_TO
-
 #
 # open door function 
 #
@@ -127,38 +115,46 @@ if __name__ == '__main__':
     col = 3
     orr = W
     state = GO_TO
-
     GPIO.setmode(GPIO.BCM)
     # set GPIO_TRIGGER to OUTPUT mode
     GPIO.setup(GPIO_TRIGGER,GPIO.OUT)
     # set GPIO_ECHO to INPUT mode
     GPIO.setup(GPIO_ECHO,GPIO.IN)
-
     while True:
-
         distance = sonar()
+        print(distance)
         if (state == WAIT):
             robot.halt()
         elif (state == GO_TO):
+            print(row, col)
+            print(arrX, arrY)
             get_dist()
 
             if (distance < 21):
                 robot.halt()
             else:
-                if (arrX >= 2.5):
+                if (arrX >= 1.5):
+
+    
+          
+            
+    
+
+          
+    
+    
+  
                     arrX = 0
                     mapX = mapX +1 
-                elif (arrX <= -2.5):
+                elif (arrX <= -1.5):
                     arrX = 0
                     mapX = mapX - 1
-
-                if (arrY >= 2):
+                if (arrY >= 1):
                     arrY = 0
                     mapY = mapY + 1
-                elif (arrY <= -2):
+                elif (arrY <= -1):
                     arrY = 0 
                     mapY = mapY - 1  
-
                 if (arrY != row):
                     if (row > mapY):
                         if (orr == N):
@@ -178,7 +174,7 @@ if __name__ == '__main__':
                         if (orr == S):
                             robot.left_turn()
                         orr = E 
-                    robot.forward(pdcont.update(theta))
+                    robot.forward(0)
                     client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
                 elif (arrX != col):
                     if (col > mapX):
@@ -199,8 +195,7 @@ if __name__ == '__main__':
                             robot.right_turn()
                             robot.right_turn()
                         orr = S 
-                    robot.forward(0)#pdcont.update(theta))
+                    robot.forward(0)
                     client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
                 else: 
                     robot.halt()
-                    state = WAIT
