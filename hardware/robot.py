@@ -7,13 +7,10 @@ import smbus
 from mpu9250_i2c import *
 import pickle 
 
-from imusensor.MPU9250 import MPU9250
-
 address = 0x68
 bus = smbus.SMBus(1)
 pdcont = PDController(0,1,1)
 robot = Robot()
-mpu9250 = MP9250.MPU9250(bus, address)
 
 
 SONAR_MIN = 0   # SONAR_MIN = 20
