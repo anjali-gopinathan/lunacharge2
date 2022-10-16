@@ -132,8 +132,7 @@ if __name__ == '__main__':
     GPIO.setup(GPIO_TRIGGER,GPIO.OUT)
     # set GPIO_ECHO to INPUT mode
     GPIO.setup(GPIO_ECHO,GPIO.IN)
-    time.sleep(20)
-    p.ChangeDutyCycle(12)
+    p2.ChangeDutyCycle(12)
                     
 
     while True:
@@ -207,10 +206,10 @@ if __name__ == '__main__':
                     client.publish("chargr/loc", str(x/14) + ',' + str(y/11))
                 else: 
                     robot.halt()
-                    p.ChangeDutyCycle(1.5)
+                     p.ChangeDutyCycle(12)
                     time.sleep(20)
                     p.ChangeDutyCycle(5.5)
-                    p2.ChangeDutyCycle(1.5)
+                    p2.ChangeDutyCycle(12)
                     time.sleep(20)
                     p2.ChangeDutyCycle(5.5)
                     state = WAIT
