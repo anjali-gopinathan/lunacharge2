@@ -6,11 +6,6 @@ LEFT_REVERSE = 19 #IN2
 RIGHT_FORWARD = 13
 RIGHT_REVERSE = 6
 
-forwardLeft = PWMOutputDevice(LEFT_FORWARD, True, 0, 1000)
-reverseLeft = PWMOutputDevice(LEFT_REVERSE, True, 0, 1000)  
-forwardRight = PWMOutputDevice(RIGHT_FORWARD, True, 0, 1000)
-reverseRight = PWMOutputDevice(RIGHT_REVERSE, True, 0, 1000) 
-
 def robo_init():
     forwardLeft = PWMOutputDevice(LEFT_FORWARD, True, 0, 1000)
     reverseLeft = PWMOutputDevice(LEFT_REVERSE, True, 0, 1000)  
