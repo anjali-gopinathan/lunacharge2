@@ -43,3 +43,5 @@ class Robot:
         self.forwardRight.value = 0
         self.reverseRight.value = 0
 
+rob = Robot()
+self.right_turn()
