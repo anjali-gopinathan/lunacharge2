@@ -5,8 +5,8 @@ import 'package:motor_flutter_starter/components/car.dart';
 
 class Grid extends StatefulWidget {
   final void Function(int index) onUpdateIndex;
-  final int carX;
-  final int carY;
+  final double carX;
+  final double carY;
 
   const Grid({
     super.key,

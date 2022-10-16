@@ -130,14 +130,14 @@ class _MapPageState extends State<MapPage> {
     return locStr;
   }
 
-  int _getLocX() {
+  double _getLocX() {
     String locStr = _getLoc();
-    return int.parse(locStr.split(",")[1]);
+    return double.parse(locStr.split(",")[1]);
   }
 
-  int _getLocY() {
+  double _getLocY() {
     String locStr = _getLoc();
-    return int.parse(locStr.split(",")[0]);
+    return double.parse(locStr.split(",")[0]);
   }
 
   // MQTT stuff
