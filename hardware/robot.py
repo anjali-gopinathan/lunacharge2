@@ -134,7 +134,6 @@ if __name__ == '__main__':
     GPIO.setup(GPIO_ECHO,GPIO.IN)
 
     while True:
-        print(state)
         distance = sonar()
         if (state == WAIT):
             robot.halt()
@@ -177,7 +176,7 @@ if __name__ == '__main__':
                         orr = E 
                     robot.forward(0)
                     print(x,y)
-                    client.publish("chargr/loc", str(x) + ',' + str(y))
+                    client.publish("chargr/loc", str(x/14) + ',' + str(y/11))
                 elif (arrX != col):
                     if (col > mapX):
                         if (orr == W):
@@ -199,8 +198,7 @@ if __name__ == '__main__':
                         orr = S 
                     robot.forward(0)
                     print(x,y)
-                    print('Map X: ' + str(mapX) +',' + sri)
-                    client.publish("chargr/loc", str(x) + ',' + str(y))
+                    client.publish("chargr/loc", str(x/14) + ',' + str(y/11))
                 else: 
                     robot.halt()
                     if (avail[0] == 0):
