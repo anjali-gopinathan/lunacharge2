@@ -33,10 +33,14 @@ N = 1
 E = 2 
 S = 3 
 servoPIN = 17
+servoUpperPin = 22
+GPI.setup(servoUpperPin, GPIO.OUT)
 GPIO.setup(servoPIN, GPIO.OUT)
 
 p = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
+p2 = GPIO.PWM(servoUpperPin, 50)
 p.start(2.5)
+p2.start(2.5)
 
 
 def sonar():
@@ -116,7 +120,8 @@ def on_loc(client, userdata, message):
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
     robot.halt()
-    p.ChangeDutyCycle(7.5)
+    p.ChangeDutyCycle(5.5)
+    p2.ChangeDutyCycle(5.5)
     client = mqtt.Client()
     client.on_connect = on_connect
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
@@ -196,6 +201,12 @@ if __name__ == '__main__':
                     client.publish("chargr/loc", str(x) + ',' + str(y))
                 else: 
                     robot.halt()
-                    p.ChangeDutyCycle(1)
-                    time.sleep(20)
-                    p.ChangeDutyCycle(10)
+                    if (avail[0] == 0):
+                        p.ChangeDutyCycle(1)
+                        time.sleep(20)
+                        p.ChangeDutyCycle(5.5)
+                    elif (avail[1]==0):
+                        p2.ChangeDutyCycle(1)
+                        time.sleep(20)
+                        p2.ChangeDutyCycle(5.5)
+                    state = WAIT
