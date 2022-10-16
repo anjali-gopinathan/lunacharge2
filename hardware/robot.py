@@ -182,7 +182,7 @@ if __name__ == '__main__':
                         if (orr == S):
                             robot.left_turn()
                         orr = E 
-                    robot.forward(pdcont.update(0))
+                    robot.forward(pdcont.update(theta))
                     client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
                 elif (arrX != col):
                     if (col > mapX):
@@ -203,7 +203,7 @@ if __name__ == '__main__':
                             robot.right_turn()
                             robot.right_turn()
                         orr = S 
-                    robot.forward(pdcont.update(0)
+                    robot.forward(pdcont.update(theta))
                     client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
                 else: 
                     robot.halt()
