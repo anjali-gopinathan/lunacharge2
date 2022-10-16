@@ -38,6 +38,8 @@ dependencies:
   motor_flutter: ^0.9.1
   get_storage: ^2.0.3
   flutter_svg: ^1.1.5
+  mqtt_client: ^9.7.2
+  material_design_icons_flutter: ^5.0.6996
 
 dev_dependencies:
   flutter_test:

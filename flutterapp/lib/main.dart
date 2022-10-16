@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setupUpdatesListener();
     super.initState();
   }
-  
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -155,5 +155,4 @@ class _MyHomePageState extends State<MyHomePage> {
     mqttClientManager.disconnect();
     super.dispose();
   }
-
 }
