@@ -75,8 +75,8 @@ def get_dist():
     
     ax, ay, az, gX, gY, gZ = mpu6050_conv()
 
-    x = x + gX * (time.time()-oldTime)
-    y = y + gY*(time.time() - oldTime)
+    x = x + gX * (time.time()-oldTime)/10
+    y = y + gY*(time.time() - oldTime)/10
     arrX = arrX + gX*(time.time()-oldTime)
     arrY = arrY + gY*(time.time()-oldTime)
     theta = theta + gZ*(time.time()-oldTime)
@@ -137,29 +137,28 @@ if __name__ == '__main__':
     while True:
 
         distance = sonar()
-        print(distance)
-
         if (state == WAIT):
             robot.halt()
         elif (state == GO_TO):
             print(row, col)
+            print('mapX')
             print(arrX, arrY)
             get_dist()
 
             if (distance < 21):
                 robot.halt()
             else:
-                if (arrX >= 1.5):
+                if (arrX >= 2.5):
                     arrX = 0
                     mapX = mapX +1 
-                elif (arrX <= -1.5):
+                elif (arrX <= -2.5):
                     arrX = 0
                     mapX = mapX - 1
 
-                if (arrY >= 1):
+                if (arrY >= 2):
                     arrY = 0
                     mapY = mapY + 1
-                elif (arrY <= -1):
+                elif (arrY <= -2):
                     arrY = 0 
                     mapY = mapY - 1  
 
