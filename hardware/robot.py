@@ -95,6 +95,7 @@ def on_loc(client, userdata, message):
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
     halt()
+    robo_init()
     client = mqtt.Client()
     client.on_connect = on_connect
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
