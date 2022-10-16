@@ -4,6 +4,7 @@ import 'package:motor_flutter_starter/MQTTClientManager.dart';
 import 'package:motor_flutter_starter/components/grid.dart';
 import 'package:motor_flutter_starter/pages/health_page.dart';
 import 'package:mqtt_client/mqtt_client.dart';
+// import 'package:pairx'
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -14,9 +15,11 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   MQTTClientManager mqttClientManager = MQTTClientManager();
-  final String pubTopic = "test/counter";
+  final String pubTopic_chargeme = "chargr/chargeme";
+  final String subTopic_chargerloc = "chargr/charger-loc";   // format is in row, column
   int _selectedIndex = -1;
-
+  // int _chargerLocX = -1;
+  // int _chargerLocY = -1;
   @override
   void initState() {
     setupMqttClient();
@@ -39,8 +42,9 @@ class _MapPageState extends State<MapPage> {
 
     return Scaffold(
       body: Grid(
-        carX: 5,
-        carY: 2,
+        carX: _getLocX(), //_chargerLocX
+        
+        carY: _getLocY(),  // row
         onUpdateIndex: (int index) {
           setState(() {
             _selectedIndex = index;
@@ -108,13 +112,33 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _requestCharge() {
-    mqttClientManager.publishMessage(pubTopic, 'Charge has been requested!');
+    mqttClientManager.publishMessage(pubTopic_chargeme, 'Charge has been requested!');
+  }
+  String _getLoc() {
+    String locStr = "";
+    // wildcard?
+    mqttClientManager
+        .getMessagesStream()!
+        .listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
+                final recMess = c![0].payload as MqttPublishMessage;
+                locStr = MqttPublishPayload.bytesToStringAsString(recMess.payload.message);  
+              });
+    return locStr;
+  }
+  int _getLocX(){
+    String locStr = _getLoc();
+    return  int.parse(locStr.split(",")[0]);
+  }
+  int _getLocY(){
+    String locStr = _getLoc();
+    return  int.parse(locStr.split(",")[Y]);
   }
 
   // MQTT stuff
   Future<void> setupMqttClient() async {
     await mqttClientManager.connect();
-    mqttClientManager.subscribe(pubTopic);
+    mqttClientManager.subscribe(pubTopic_chargeme);
+    mqttClientManager.subscribe(subTopic_chargerloc);
   }
 
   void setupUpdatesListener() {
