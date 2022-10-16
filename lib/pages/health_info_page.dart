@@ -1,37 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:motor_flutter_starter/MQTTClientManager.dart';
-import 'package:mqtt_client/mqtt_client.dart';
+import 'package:http/http.dart' as http;
 
-class MapPage extends StatefulWidget {
-  const MapPage({super.key});
+class HealthInfoPage extends StatefulWidget {
+  const HealthInfoPage({super.key});
 
   @override
-  State<MapPage> createState() => _MapPageState();
+  State<HealthInfoPage> createState() => _HealthInfoPageState();
 }
 
-class _MapPageState extends State<MapPage> {
-  MQTTClientManager mqttClientManager = MQTTClientManager();
-  final String pubTopic = "chargr/chargeme";
+class _HealthInfoPageState extends State<HealthInfoPage> {
 
   @override
   void initState() {
-    setupMqttClient();
-    setupUpdatesListener();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    mqttClientManager.disconnect();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
+    //API key: rwTfGX0PLYds3c2mkwWj8HhabyAGsjr27jDYGHv3
+
     return Scaffold(
-      body: Center(child: Text('hello')),
-      bottomNavigationBar: BottomAppBar(
+      body: TextButton(
+        // MaterialStateProperty.all<RoundedRectangleBorder>(
+        //   RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(18.0),
+        //     side: BorderSide(color: Colors.red)
+        //   )
+        // )
+        onPressed: _interssytemsLogin,
+
+        ),
+      bottomNavigationBar: BottomAppBar(        
         shape: const CircularNotchedRectangle(),
         child: SizedBox(
           height: 60,
@@ -73,33 +74,27 @@ class _MapPageState extends State<MapPage> {
             ],
           ),
         ),
+
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _requestCharge,
-        child: const Icon(MdiIcons.mapMarkerDown),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-
-  void _requestCharge() {
-    mqttClientManager.publishMessage(pubTopic, 'Charge has been requested!');
+  void _intersystemsLogin(){
+    Response response = await get('') ;
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: 'foo',
+        body: 'bar',
+        userId: 1,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+})
+  .then((response) => response.json())
+  .then((json) => console.log(json));
   }
-
-  // MQTT stuff
-  Future<void> setupMqttClient() async {
-    await mqttClientManager.connect();
-    mqttClientManager.subscribe(pubTopic);
-  }
-
-  void setupUpdatesListener() {
-    mqttClientManager
-        .getMessagesStream()!
-        .listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-      final recMess = c![0].payload as MqttPublishMessage;
-      final pt =
-          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-      print('MQTTClient::Message received on topic: <${c[0].topic}> is $pt\n');
-    });
+  Future<http.Response> fetchAlbum() {
+    return http.get(Uri.parse('https://fhir.8af670au7wp7.static-test-account.isccloud.io'));
   }
 }
