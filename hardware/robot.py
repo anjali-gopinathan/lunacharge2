@@ -106,7 +106,7 @@ def on_loc(client, userdata, message):
     print('Message' + message.payload.decode())
     loc_str = message.payload.decode()
     deli = 0
-    for i in loc_str:
+    for i in len(loc_str):
         if (loc_str[i] == ","):
             deli = i 
     row = int(loc_str[0:deli])
