@@ -75,7 +75,7 @@ def get_dist():
     global oldTime, arrX, arrY, theta
     
     delta = 0.2 *(time.time()-oldTime)
-    print("Delta" + str(delta))
+    print("Delta" + str)
     if (orr == N):
 	    x = x + delta
 	    arrX = arrX + delta
@@ -105,6 +105,7 @@ def check_empty():
         return 2
 def on_loc(client, userdata, message):
     global state
+    global oldTime
     print('Message' + message.payload.decode())
     loc_str = message.payload.decode()
     deli = 0
@@ -113,6 +114,7 @@ def on_loc(client, userdata, message):
     col = int(colS)
     print(row, col)
     state = GO_TO
+    oldTime = time.time()
 #
 # open door function 
 #
