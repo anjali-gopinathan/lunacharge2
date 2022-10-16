@@ -62,8 +62,6 @@ def sonar():
     distanceBothWays = measuredTime * 33112 # cm/s in 20 degrees Celsius
     # divide the distance by 2 to get the actual distance from sensor to obstacle
     distance = distanceBothWays / 2
-    distance = pulse_duration * 17150        #Calculate distance
-    distance = round(distance, 2)            #Roun
     return distance
 
 def get_dist():
