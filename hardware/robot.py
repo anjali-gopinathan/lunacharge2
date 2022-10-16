@@ -11,6 +11,7 @@ address = 0x68
 bus = smbus.SMBus(1)
 pdcont = PDController(0,1,1)
 robot = Robot()
+mpu9250 = MP9250.MPU9250(bus, address)
 
 SONAR_MIN = 0   # SONAR_MIN = 20
 SONAR_MAX = 0   # SONAR_MAX = 800
