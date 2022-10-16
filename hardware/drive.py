@@ -20,13 +20,13 @@ class Robot:
         self.reverseRight.value = 0
 
     def left_turn(self):
-        halt()
+        self.halt()
         self.forwardLeft.value = 0.0
         self.reverseLeft.value = 1.0
         self.forwardRight.value = 1.0
         self.reverseRight.value = 0
         time.sleep(1)
-        halt()
+        self.halt()
 
     def right_turn(self):
         halt()
@@ -35,7 +35,7 @@ class Robot:
         self.forwardRight.value = 0
         self.reverseRight.value = 1.0
         time.sleep(1)
-        halt()
+        self.halt()
 
     def halt(self):
         self.forwardLeft.value = 0
