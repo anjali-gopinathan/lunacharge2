@@ -12,5 +12,5 @@ class PDController:
         err = value - self.target
         newTime = time.time()
         o = err*self.kp + (err-self.oldError)/(newTime-self.oldTime)*self.kd
-        oldTime = newTimese
+        oldTime = newTime
         return o 
