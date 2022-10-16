@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:motor_flutter/motor_flutter.dart';
 
-import '../models/action.dart';
+import '../../models/action.dart';
 
 class ActionsPage extends StatefulWidget {
   const ActionsPage({super.key, required this.item});

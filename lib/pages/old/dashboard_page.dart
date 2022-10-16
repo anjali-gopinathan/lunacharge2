@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:motor_flutter_starter/pages/profile_page.dart';
-import '../models/action.dart';
+import 'package:motor_flutter_starter/pages/old/profile_page.dart';
+import '../../models/action.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -22,7 +22,8 @@ class _DashboardPageState extends State<DashboardPage> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfilePage()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const ProfilePage()));
             },
             icon: const Icon(Icons.person)),
         // Here we take the value from the MyHomePage object that was created by
@@ -35,7 +36,8 @@ class _DashboardPageState extends State<DashboardPage> {
           final action = ActionItem.values[index];
           return GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => action.page));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => action.page));
             },
             child: Card(
               child: Center(
@@ -51,7 +53,8 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
           );
         }),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       ),
     );
   }

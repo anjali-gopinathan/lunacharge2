@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:motor_flutter/motor_flutter.dart';
-import 'package:motor_flutter_starter/pages/dashboard_page.dart';
+import 'package:motor_flutter_starter/pages/map_page.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
@@ -47,18 +48,17 @@ class _StartPageState extends State<StartPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.symmetric(vertical: 24),
+        width: double.infinity,
+        color: Colors.white,
         child: !_existingUser
             ? Column(
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Text(
-                    'Motor Starter Demo',
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
+                  _buildLogo(),
                   ContinueOnSonrButton(
                     onSuccess: (ai) => _setAuthInfo(ai),
                     onError: (e) {
@@ -75,9 +75,17 @@ class _StartPageState extends State<StartPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Logging in as ${_authInfo?.address}...',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                    _buildLogo(),
+                    SizedBox(
+                      width: 300,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 40, bottom: 20),
+                        child: Text(
+                          'Logging in as ${_authInfo?.address}...',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
                     const CircularProgressIndicator(
                       color: Colors.blueAccent,
@@ -86,6 +94,23 @@ class _StartPageState extends State<StartPage> {
                 ),
               ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget _buildLogo() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset('assets/img/logo.svg', height: 80),
+        Text(
+          'Chargr',
+          style: Theme.of(context)
+              .textTheme
+              .headline2!
+              .copyWith(fontWeight: FontWeight.w700),
+        ),
+      ],
     );
   }
 
@@ -101,7 +126,8 @@ class _StartPageState extends State<StartPage> {
     );
 
     Future.delayed(const Duration(milliseconds: 400), () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const DashboardPage()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const MapPage()));
     });
   }
 
@@ -112,7 +138,8 @@ class _StartPageState extends State<StartPage> {
         _authInfo = authInfo;
       });
       Future.delayed(const Duration(milliseconds: 400), () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const DashboardPage()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const MapPage()));
       });
     } else {
       throw Exception('AuthInfo was not passed to save');

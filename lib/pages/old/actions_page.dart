@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/action.dart';
-import '../models/schema_search_delegate.dart';
+import '../../models/action.dart';
+import '../../models/schema_search_delegate.dart';
 
 class ActionsPage extends StatefulWidget {
   const ActionsPage({super.key, required this.item});
@@ -29,7 +29,8 @@ class _StartPageState extends State<ActionsPage> {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: Text("Create Example Schema", style: Theme.of(context).textTheme.titleLarge),
+                    title: Text("Create Example Schema",
+                        style: Theme.of(context).textTheme.titleLarge),
                     content: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -37,23 +38,45 @@ class _StartPageState extends State<ActionsPage> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Profile", style: Theme.of(context).textTheme.titleMedium),
+                          Text("Profile",
+                              style: Theme.of(context).textTheme.titleMedium),
                           const Divider(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Name", style: Theme.of(context).textTheme.bodyText1),
-                              Text("STRING", style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.grey)),
+                              Text("Name",
+                                  style: Theme.of(context).textTheme.bodyText1),
+                              Text("STRING",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(color: Colors.grey)),
                             ],
                           ),
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                            Text("Age", style: Theme.of(context).textTheme.bodyText1),
-                            Text("INTEGER", style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.grey)),
-                          ]),
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                            Text("Bio", style: Theme.of(context).textTheme.bodyText1),
-                            Text("STRING", style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.grey)),
-                          ]),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Age",
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1),
+                                Text("INTEGER",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(color: Colors.grey)),
+                              ]),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Bio",
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1),
+                                Text("STRING",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(color: Colors.grey)),
+                              ]),
                         ],
                       ),
                     ),
