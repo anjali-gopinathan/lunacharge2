@@ -11,42 +11,35 @@ class Robot:
         self.forwardLeft = PWMOutputDevice(LEFT_FORWARD, True, 0, 1000)
         self.reverseLeft = PWMOutputDevice(LEFT_REVERSE, True, 0, 1000)  
         self.forwardRight = PWMOutputDevice(RIGHT_FORWARD, True, 0, 1000)
-        self.everseRight = PWMOutputDevice(RIGHT_REVERSE, True, 0, 1000)   
-        
-    def robo_init():
-        forwardLeft = PWMOutputDevice(LEFT_FORWARD, True, 0, 1000)
-        reverseLeft = PWMOutputDevice(LEFT_REVERSE, True, 0, 1000)  
-        forwardRight = PWMOutputDevice(RIGHT_FORWARD, True, 0, 1000)
-        reverseRight = PWMOutputDevice(RIGHT_REVERSE, True, 0, 1000)   
+        self.reverseRight = PWMOutputDevice(RIGHT_REVERSE, True, 0, 1000)   
 
-    def forward(o):
-        forwardLeft.value = 1.0*(1+o)
-        reverseLeft.value = 0
-        forwardRight.value = 1.0*(1-o)
-        reverseRight.value = 0
+    def forward(self,o):
+        self.forwardLeft.value = 1.0*(1+o)
+        self.reverseLeft.value = 0
+        self.forwardRight.value = 1.0*(1-o)
+        self.reverseRight.value = 0
 
-    def left_turn():
+    def left_turn(self):
         halt()
-        forwardLeft.value = 0.0
-        reverseLeft.value = 1.0
-        forwardRight.value = 1.0
-        reverseRight.value = 0
+        self.forwardLeft.value = 0.0
+        self.reverseLeft.value = 1.0
+        self.forwardRight.value = 1.0
+        self.reverseRight.value = 0
         time.sleep(1)
         halt()
 
-    def right_turn():
+    def right_turn(self):
         halt()
-        forwardLeft.value = 1.0
-        reverseLeft.value = 0
-        forwardRight.value = 0
-        reverseRight.value = 1.0
+        self.forwardLeft.value = 1.0
+        self.reverseLeft.value = 0
+        self.forwardRight.value = 0
+        self.reverseRight.value = 1.0
         time.sleep(1)
         halt()
 
-    def halt():
-        forwardLeft.value = 0
-        reverseLeft.value = 0
-        forwardRight.value = 0
-        reverseRight.value = 0
+    def halt(self):
+        self.forwardLeft.value = 0
+        self.reverseLeft.value = 0
+        self.forwardRight.value = 0
+        self.reverseRight.value = 0
 
-    
