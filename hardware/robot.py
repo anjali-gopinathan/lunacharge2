@@ -7,6 +7,7 @@ import smbus
 import pickle 
 
 pdcont = PDController(0,1,1)
+robot = Robot()
 
 
 UNIT_TRAVEL = 2 
@@ -91,7 +92,6 @@ def on_loc(client, userdata, message):
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
     halt()
-    robo_init()
     client = mqtt.Client()
     client.on_connect = on_connect
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     while True:
 
         if (state == WAIT):
-            halt()
+            robot.halt()
         elif (state == GO_TO):
             get_dist()
             if (arrX >= 1.5):
@@ -124,42 +124,42 @@ if __name__ == '__main__':
             if (arrY != row):
                 if (row > arrY):
                     if (orr == N):
-                        left_turn()
+                       robot.left_turn()
                     if (orr == E):
-                        right_turn()
-                        right_turn()
+                        robot.right_turn()
+                        robot.right_turn()
                     if (orr == S):
-                        right_turn()
+                        robot.right_turn()
                     orr = W 
                 if (row < arrY): 
                     if (orr == N):
-                        right_turn()
+                        robot.right_turn()
                     if (orr == E):
-                        right_turn()
-                        right_turn()
+                        robot.right_turn()
+                        robot.right_turn()
                     if (orr == S):
-                        left_turn()
+                        robot.left_turn()
                     orr = E 
             elif (arrX != col):
                 if (col > arrX):
                     if (orr == W):
-                        right_turn()
+                        robot.right_turn()
                     if (orr == E):
-                        left_turn()
+                        robot.left_turn()
                     if (orr == S):
-                        right_turn()
-                        right_turn()
+                        robot.right_turn()
+                        robot.right_turn()
                     orr = N
                 if (col < arrX): 
                     if (orr == W):
-                        left_turn()
+                        robot.left_turn()
                     if (orr == E):
-                        right_turn()
+                        robot.right_turn()
                     if (orr == S):
-                        right_turn()
-                        right_turn()
+                        robot.right_turn()
+                        robot.right_turn()
                     orr = S 
-                forward(pdcont.update(0))
+                robot.forward(pdcont.update(0))
                 print(theta)
                 client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
             else: 
