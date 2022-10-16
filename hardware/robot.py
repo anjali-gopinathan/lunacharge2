@@ -7,6 +7,8 @@ import smbus
 from mpu9250_i2c import *
 import pickle 
 
+address = 0x68
+bus = smbus.SMBus(1)
 pdcont = PDController(0,1,1)
 robot = Robot()
 
