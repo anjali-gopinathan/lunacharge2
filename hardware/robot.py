@@ -123,7 +123,7 @@ if __name__ == '__main__':
                 mapY = mapY - 1  
 
             if (arrY != row):
-                if (row > arrY):
+                if (row > mapY):
                     if (orr == N):
                        robot.left_turn()
                     if (orr == E):
@@ -132,7 +132,7 @@ if __name__ == '__main__':
                     if (orr == S):
                         robot.right_turn()
                     orr = W 
-                if (row < arrY): 
+                if (row < mapY): 
                     if (orr == N):
                         robot.right_turn()
                     if (orr == E):
@@ -144,7 +144,7 @@ if __name__ == '__main__':
                 robot.forward(0)
                 client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
             elif (arrX != col):
-                if (col > arrX):
+                if (col > mapX):
                     if (orr == W):
                         robot.right_turn()
                     if (orr == E):
@@ -153,7 +153,7 @@ if __name__ == '__main__':
                         robot.right_turn()
                         robot.right_turn()
                     orr = N
-                if (col < arrX): 
+                if (col < mapX): 
                     if (orr == W):
                         robot.left_turn()
                     if (orr == E):
