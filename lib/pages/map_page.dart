@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:motor_flutter_starter/MQTTClientManager.dart';
+import 'package:motor_flutter_starter/components/grid.dart';
 import 'package:mqtt_client/mqtt_client.dart';
+import 'package:photo_view/photo_view.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -13,6 +15,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   MQTTClientManager mqttClientManager = MQTTClientManager();
   final String pubTopic = "test/counter";
+  int _selectedIndex = -1;
 
   @override
   void initState() {
@@ -29,8 +32,19 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    final foregroundColor = _selectedIndex == -1 ? Colors.grey : Colors.white;
+    final backgroundColor = _selectedIndex == -1
+        ? const Color(0xffd7d8d9)
+        : const Color(0xffA155DD);
+
     return Scaffold(
-      body: Center(child: Text('hello')),
+      body: Grid(
+        onUpdateIndex: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+      ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: SizedBox(
@@ -76,6 +90,8 @@ class _MapPageState extends State<MapPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _requestCharge,
+        foregroundColor: foregroundColor,
+        backgroundColor: backgroundColor,
         child: const Icon(MdiIcons.mapMarkerDown),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

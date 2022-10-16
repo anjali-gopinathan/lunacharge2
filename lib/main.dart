@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:motor_flutter/motor_flutter.dart';
+import 'package:motor_flutter_starter/pages/map_page.dart';
 
 import 'pages/start_page.dart';
 
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
               displayColor: Colors.black,
             ),
       ),
-      home: const StartPage(),
+      home: const MapPage(),
+      // home: const StartPage(),
     );
   }
 }
