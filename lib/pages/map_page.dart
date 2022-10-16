@@ -3,7 +3,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:motor_flutter_starter/MQTTClientManager.dart';
 import 'package:motor_flutter_starter/components/grid.dart';
 import 'package:mqtt_client/mqtt_client.dart';
-import 'package:photo_view/photo_view.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});

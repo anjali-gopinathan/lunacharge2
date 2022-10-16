@@ -40,7 +40,6 @@ dependencies:
   flutter_svg: ^1.1.5
   mqtt_client: ^9.7.2
   material_design_icons_flutter: ^5.0.6996
-  photo_view: ^0.14.0
 
 dev_dependencies:
   flutter_test:
