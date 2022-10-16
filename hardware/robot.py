@@ -9,7 +9,7 @@ import pickle
 
 address = 0x68
 bus = smbus.SMBus(1)
-pdcont = PDController(0,1,1)
+pdcont = PDController(0,0.1,0.1)
 robot = Robot()
 
 
