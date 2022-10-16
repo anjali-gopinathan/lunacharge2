@@ -217,7 +217,7 @@ if __name__ == '__main__':
                     state = WAIT
 
         elif (state == DEMO):
-            robot.forward()
+            robot.forward(0)
             if (flag == 0):
                 cnt = cnt+1
                 client.publish("chargr/loc", str(0) + ',' + str(cnt*0.5))
