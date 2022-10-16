@@ -75,6 +75,7 @@ def get_dist():
     global oldTime, arrX, arrY, theta
     
     delta = 0.2 *(time.time()-oldTime)
+    print("Delta" + str(delta))
     if (orr == N):
 	    x = x + delta
 	    arrX = arrX + delta
@@ -124,8 +125,6 @@ if __name__ == '__main__':
     client.on_connect = on_connect
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
     client.loop_start()
-    row = 1
-    col = 3
     orr = W
     GPIO.setmode(GPIO.BCM)
     # set GPIO_TRIGGER to OUTPUT mode
@@ -198,6 +197,8 @@ if __name__ == '__main__':
                             robot.right_turn()
                         orr = S 
                     robot.forward(0)
+                    print(x,y)
+                    print('Map X: ' + str(mapX) +',' + sri)
                     client.publish("chargr/loc", str(x) + ',' + str(y))
                 else: 
                     robot.halt()
