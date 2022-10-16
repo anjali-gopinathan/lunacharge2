@@ -39,8 +39,6 @@ def halt():
     forwardRight.value = 0
     reverseRihgt.value = 0
 
-robo_init()
-
 while True:
     forward(0)
     time.sleep(2)
