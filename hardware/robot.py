@@ -140,6 +140,9 @@ if __name__ == '__main__':
                     if (orr == S):
                         robot.left_turn()
                     orr = E 
+                robot.forward(pdcont.update(0))
+                print(theta)
+                client.publish("chargr/loc", str(int(x/14)) + ',' + str(int(y/11)))
             elif (arrX != col):
                 if (col > arrX):
                     if (orr == W):
