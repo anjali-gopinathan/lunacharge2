@@ -32,6 +32,13 @@ W = 0
 N = 1 
 E = 2 
 S = 3 
+servoPIN = 17
+GPIO.setup(servoPIN, GPIO.OUT)
+
+p = GPIO.PWM(servoPIN, 50) # GPIO 17 for PWM with 50Hz
+p.start(2.5)
+
+
 def sonar():
     # distance measurements in cm
     # set GPIO_TRIGGER to LOW
@@ -120,6 +127,7 @@ if __name__ == '__main__':
     GPIO.setup(GPIO_TRIGGER,GPIO.OUT)
     # set GPIO_ECHO to INPUT mode
     GPIO.setup(GPIO_ECHO,GPIO.IN)
+    
     while True:
         distance = sonar()
         print(distance)
