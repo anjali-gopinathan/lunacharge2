@@ -29,7 +29,7 @@ class Robot:
         self.halt()
 
     def right_turn(self):
-        halt()
+        self.halt()
         self.forwardLeft.value = 1.0
         self.reverseLeft.value = 0
         self.forwardRight.value = 0
