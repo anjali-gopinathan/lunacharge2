@@ -142,6 +142,10 @@ if __name__ == '__main__':
 
             if (distance < 21):
                 robot.halt()
+                robot.right_turn()
+                robot.forward(0)
+                time.sleep(0.5)
+                robot.halt()
             else:
                 if (arrX >= 1.5):
                     arrX = 0
@@ -210,4 +214,5 @@ if __name__ == '__main__':
                         time.sleep(20)
                         p2.ChangeDutyCycle(5.5)
                     state = WAIT
+        print(state)
         time.sleep(0.5)
