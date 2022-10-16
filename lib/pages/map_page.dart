@@ -13,12 +13,8 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   MQTTClientManager mqttClientManager = MQTTClientManager();
-<<<<<<< HEAD
   final String pubTopic = "chargr/chargeme";
-=======
-  final String pubTopic = "test/counter";
   int _selectedIndex = -1;
->>>>>>> 35c0002d5bd88d555e18dc74f63c13a97c58f409
 
   @override
   void initState() {
