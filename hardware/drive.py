@@ -34,7 +34,7 @@ def right_turn():
     time.sleep(1)
     halt()
 
-def halt()
+def halt():
     forwardLeft.value = 0
     reverseLeft.value = 0
     forwardRight.value = 0
@@ -43,3 +43,8 @@ def halt()
 robo_init()
 
 while True:
+    forward(0)
+    time.sleep(2)
+    halt()
+    time.sleep(1)
+    
