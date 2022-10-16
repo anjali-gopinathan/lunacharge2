@@ -1,41 +1,45 @@
-import RPi.GPIO as GPIO
+from gpiozero import PWMOutputDevice
 import time
 
-LEFT_FORWARD = 12
-LEFT_REVERSE = 18
+LEFT_FORWARD = 26 #IN1
+LEFT_REVERSE = 19 #IN2
 RIGHT_FORWARD = 13
-RIGHT_BACKWARD = 19
+RIGHT_BACKWARD = 6
 
-def robo_init():    
-    gpio.setmode(gpio.BCM)
-    gpio.setup(17, gpio.OUT)
-    gpio.setup(22, gpio.OUT)
-    gpio.setup(23, gpio.OUT)
-    gpio.setup(24, gpio.OUT)
-def forward():
-    gpio.output(17, False)
-    gpio.output(22, True)
-    gpio.output(23, True)
-    gpio.output(24, False)
-def reverse():
-    gpio.output(17, True)
-    gpio.output(22, False)
-    gpio.output(23, False)
-    gpio.output(24, False)
+def robo_init():  
+    forwardLeft = PWMOutputDevice(LEFT_FORWARD, True, 0, 1000)
+    reverseLeft = PWMOutputDevice(LEFT_REVERSE, True, 0, 1000)  
+    forwardRight = PWMOutputDevice(RIGHT_FORWARD, True, 0, 1000)
+    reverseRight = PWMOutputDevice(RIGHT_REVERSE, True, 0, 1000)  
+
+def forward(o):
+    forwardLeft.value = 1.0*(1+o)
+    reverseLeft.value = 0
+    forwardRight.value = 1.0*(1-o)
+    reverseRight.value = 0
+
 def left_turn():
-    gpio.output(17, False)
-    gpio.output(22, False)
-    gpio.output(23, False)
-    gpio.output(24, False)
+    forwardLeft.value = 0.0
+    reverseLeft.value = 1.0
+    forwardRight.value = 1.0
+    reverseRight.value = 0
     time.sleep(1)
     halt()
+
 def right_turn():
-    gpio.output(17, False)
-    gpio.output(22, False)
-    gpio.output(23, False)
-    gpio.output(24, False)
+    forwardLeft.value = 1.0
+    reverseLeft.value = 0
+    forwardRight.value = 0
+    reverseRight.value = 1.0
+    time.sleep(1)
+    halt()
+
 def halt()
-    gpio.output(17, False)
-    gpio.output(22, False)
-    gpio.output(23, False)
-    gpio.output(24, False)
+    forwardLeft.value = 0
+    reverseLeft.value = 0
+    forwardRight.value = 0
+    reverseRihgt.value = 0
+
+robo_init()
+
+while True:
