@@ -38,6 +38,8 @@ class _MapPageState extends State<MapPage> {
 
     return Scaffold(
       body: Grid(
+        carX: 5,
+        carY: 2,
         onUpdateIndex: (int index) {
           setState(() {
             _selectedIndex = index;
