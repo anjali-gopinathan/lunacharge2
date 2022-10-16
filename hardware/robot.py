@@ -1,8 +1,9 @@
 import paho.mqtt.client as mqtt
 import time
 import RPi.GPIO as GPIO
-from drive import * 
+import drive 
 from pdController import *
+import FaBo9Axis_MPU9250
 import smbus 
 
 from imusensor.MPU9250 import MPU9250
@@ -11,6 +12,7 @@ address = 0x68
 bus = smbus.SMBus(1)
 mpu9250 = MPU9250.MPU9250(bus, address) 
 PDController pdcont(0,1,1)
+
 
 UNIT_TRAVEL = 2 
 WAIT = 0 
@@ -36,11 +38,10 @@ E = 2
 S = 3 
 
 def get_dist():
-    mpu9250.resdSensor()
-    mpu9250.computeOrientation()
-    gY = mpu9250.GyroVals[1]
-    gX = mpu9250.GyroVals[0]
-    gZ = mpu9250.GyroVals[2]
+    gyro = mpu9250.readGyro()
+    gY = gyro['y']
+    gX = gyro['x']
+    gZ = gyro['z']
     x = x + gX*(time.time()-oldTime)
     y = y + gY*(time.time()-oldTime)
     arrX = arrX + gX*(time.time()-oldTime)
