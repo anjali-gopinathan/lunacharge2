@@ -13,4 +13,9 @@ class PDController:
         newTime = time.time()
         o = err*self.kp + (err-self.oldError)/(newTime-self.oldTime)*self.kd
         oldTime = newTime
+        if (o > 0.5):
+            o = 0.5
+        elif (o <0.5):
+            o = 0.5 
+        
         return o 
