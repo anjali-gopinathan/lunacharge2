@@ -37,7 +37,7 @@ def halt():
     forwardLeft.value = 0
     reverseLeft.value = 0
     forwardRight.value = 0
-    reverseRihgt.value = 0
+    reverseRight.value = 0
 
 while True:
     forward(0)
