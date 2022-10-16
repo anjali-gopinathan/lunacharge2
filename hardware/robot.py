@@ -140,9 +140,6 @@ if __name__ == '__main__':
         if (state == WAIT):
             robot.halt()
         elif (state == GO_TO):
-            print(row, col)
-            print('mapX')
-            print(arrX, arrY)
             get_dist()
 
             if (distance < 21):
