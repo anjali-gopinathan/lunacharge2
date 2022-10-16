@@ -103,6 +103,7 @@ def check_empty():
     else: 
         return 2
 def on_loc(client, userdata, message):
+    global state
     print('Message' + message.payload.decode())
     loc_str = message.payload.decode()
     deli = 0
