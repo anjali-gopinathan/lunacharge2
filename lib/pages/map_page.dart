@@ -16,9 +16,10 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   MQTTClientManager mqttClientManager = MQTTClientManager();
   final String pubTopic_chargeme = "chargr/chargeme";
-  final String subTopic_chargerloc =
-      "chargr/charger-loc"; // format is in row, column
+  final String subTopic_chargerloc = "chargr/loc"; // format is in row, column
   int _selectedIndex = -1;
+  double _carX = 4.5;
+  double _carY = 3;
   // int _chargerLocX = -1;
   // int _chargerLocY = -1;
   @override
@@ -43,9 +44,9 @@ class _MapPageState extends State<MapPage> {
 
     return Scaffold(
       body: Grid(
-        carX: _getLocX(), //_chargerLocX
+        carX: _carX, //_chargerLocX
 
-        carY: _getLocY(), // row
+        carY: _carY, // row
         onUpdateIndex: (int index) {
           setState(() {
             _selectedIndex = index;
@@ -113,31 +114,9 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _requestCharge() {
-    mqttClientManager.publishMessage(
-        pubTopic_chargeme, 'Charge has been requested!');
-  }
-
-  String _getLoc() {
-    String locStr = "";
-    // wildcard?
-    mqttClientManager
-        .getMessagesStream()!
-        .listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-      final recMess = c![0].payload as MqttPublishMessage;
-      locStr =
-          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-    });
-    return locStr;
-  }
-
-  double _getLocX() {
-    String locStr = _getLoc();
-    return double.parse(locStr.split(",")[1]);
-  }
-
-  double _getLocY() {
-    String locStr = _getLoc();
-    return double.parse(locStr.split(",")[0]);
+    int row = _selectedIndex ~/ 14;
+    int col = _selectedIndex % 14;
+    mqttClientManager.publishMessage(pubTopic_chargeme, '$row,$col');
   }
 
   // MQTT stuff
@@ -155,6 +134,14 @@ class _MapPageState extends State<MapPage> {
       final pt =
           MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
       print('MQTTClient::Message received on topic: <${c[0].topic}> is $pt\n');
+
+      if (c[0].topic == subTopic_chargerloc) {
+        List<String> split = pt.split(",");
+        setState(() {
+          _carY = double.parse(split[0]);
+          _carX = double.parse(split[1]);
+        });
+      }
     });
   }
 }

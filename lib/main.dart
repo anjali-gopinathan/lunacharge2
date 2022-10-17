@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
               displayColor: Colors.black,
             ),
       ),
-      home: const MapPage(),
-      // home: const StartPage(),
+      // home: const MapPage(),
+      home: const StartPage(),
     );
   }
 }
